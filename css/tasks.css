@@ -1,0 +1,8 @@
+@media only screen and (max-device-width: 770px) {
+  #tasks-column-mobile {
+    padding-top: 30px;
+  }
+  #tasks-container {
+    padding-bottom: 30px;
+  }
+}
