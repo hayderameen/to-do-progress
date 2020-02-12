@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html>
+  <!--<![endif]-->
+
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>To-Do List</title>
+    <meta
+      name="description"
+      content="This is a simple javascript to-do list app"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="../js/hammer.js"></script>
+    <script src="../js/hammer-jquery.js"></script>
+  </head>
+
+  <body>
+    <div class="jumbotron">
+      <div class="container">
+        <h1 class="display-3">To-Do List App</h1>
+        <p>
+          This is a To-Do list app. To learn more about it, click on Learn More
+          button below.
+        </p>
+        <p>
+          <button
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#helperModal"
+            role="button"
+          >
+            Learn more &raquo;
+          </button>
+        </p>
+      </div>
+    </div>
+    <div id="tasks-container" class="container">
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="helperModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="helperModalTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="helperModalTitle">
+                How to use To-Do App
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p class="lead">
+                <span class="badge badge-primary">Step 1:</span>
+                Enter your username in given input field and click on "Add User"
+                button.
+              </p>
+              <p class="lead">
+                <span class="badge badge-primary">Step 2:</span> Enter any task
+                in the given task input field and click on "Add Task" button.
+              </p>
+              <p class="lead">
+                <span class="badge badge-primary">Step 3:</span> After
+                completing any task, click on any of tasks in "Non-Completed
+                list" and it will go into completed list automatically!
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- End Modal -->
+
+      <!-- New Features Modal -->
+      <div
+        class="modal fade"
+        id="newFeatures"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="newFeaturesTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="newFeaturesTitle">
+                New Features!
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p class="lead">
+                <span class="badge badge-primary"> Swipe Gestures </span>
+                Swipe right to complete a task and swipe left to undo a task!
+              </p>
+              <p class="lead">
+                <span class="badge badge-primary"> Undo Completed Task </span>
+                Either use swipe gesture or just tap on a Completed task to put
+                it back in non-completed list.
+              </p>
+              <p class="lead">
+                <span class="badge badge-primary"> Edit a task </span>
+                Tap on non-completed task and then tap on Edit button. You may
+                now edit it or totally re-write it. Then just tap on Save task
+                button.
+              </p>
+              <p class="lead">
+                <span class="badge badge-primary"> Delete a task </span>
+                Tap on non-completed task and then tap on Delete button. It is
+                totally wiped from existence!
+              </p>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- End New Features Modal -->
+
+      <div class="row">
+        <div class="col-md-3">
+          <img src="../assets/todo.jfif" width="300" />
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="new-user-text"
+              placeholder="Enter User"
+              aria-label="Enter User"
+              aria-describedby="new-user-button"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="new-user-button"
+              >
+                Add User
+              </button>
+            </div>
+          </div>
+          <ul style="cursor: pointer;" id="users-list" class="list-group"></ul>
+        </div>
+        <div id="tasks-column-mobile" class="col-md-9">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="new-task-text"
+              placeholder="Enter Task"
+              aria-label="Enter Task"
+              aria-describedby="new-task-text"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="new-task-button"
+              >
+                Add Task
+              </button>
+            </div>
+          </div>
+          <h3 class="display-4">
+            Tasks
+            <small
+              ><span
+                id="non-completed-pill"
+                class="badge badge-pill badge-secondary"
+              ></span
+            ></small>
+          </h3>
+          <ul style="cursor: pointer;" id="task-list" class="list-group"></ul>
+          <h3 class="display-4">
+            Completed
+            <small
+              ><span
+                id="completed-pill"
+                class="badge badge-pill badge-secondary"
+              ></span
+            ></small>
+          </h3>
+          <ul
+            style="cursor: pointer;"
+            id="completed-task-list"
+            class="list-group"
+          ></ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

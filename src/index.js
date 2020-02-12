@@ -49,7 +49,7 @@ function showTasks() {
   $(function() {
     $("#task-list").empty();
     for (let task of selectedUser.nonCompletedTasks) {
-      let newItem = `<li class="list-group-item list-group-item-action list-group-item-primary">${task}</li>`;
+      let newItem = `<li value="${task}" class="list-group-item list-group-item-action list-group-item-primary"><span class="task-text">${task}</span></li>`;
       $("#task-list").append(newItem);
     }
     $("#non-completed-pill").text(selectedUser.nonCompletedTasks.length);
@@ -127,6 +127,10 @@ $(function() {
   // This function handles the edit task function
   $("#task-list").on("click", "li div #edit-task-button", function(event) {
     console.log("Edit button clicked");
+    taskText = $(this)
+      .parent()
+      .parent()
+      .attr("value");
     $("#new-task-text").val(taskText);
 
     // Finding the index of this task in nonCompleted array
@@ -138,20 +142,39 @@ $(function() {
 
   // This function handles mark as complete action
   $("#task-list").on("click", "li div #complete-task-button", function() {
+    //console.log($("#task-list").children());
+
+    taskText = $(this)
+      .parent()
+      .parent()
+      .attr("value");
+
     selectedUser.completeTask(taskText);
     showTasks();
   });
 
   // This function deletes a task entirely
   $("#task-list").on("click", "li div #delete-task-button", function() {
+    console.log(taskText);
+    taskText = $(this)
+      .parent()
+      .parent()
+      .attr("value");
     selectedUser.deleteTask(taskText);
     showTasks();
   });
 
   $("#task-list").on("click", "li", function() {
-    taskText = $(this).text();
+    //taskText = $(this).text();
 
-    $(this).append(`<div>
+    //console.log(taskText, " after click");
+
+    if ($("#task-buttons", $(this)).length == 1) {
+      console.log("it already exists");
+      // console.log($("#task-buttons", $(this)));
+      //$("#task-buttons").remove();
+    } else {
+      $(this).append(`<div id="task-buttons">
   <button class="btn btn-outline-secondary" type="button" id="edit-task-button">
     Edit <i class="fa fa-pencil" aria-hidden="true"></i>
   </button>
@@ -164,6 +187,7 @@ $(function() {
     Delete <i class="glyphicon glyphicon-remove"></i>
   </button>
 </div>`);
+    }
   });
 });
 
@@ -233,7 +257,8 @@ $("#task-list")
   .hammer({ domEvents: true })
   .on("swiperight", "li", function() {
     console.log("Swiped Right");
-    let taskText = $(this).text();
+    //let taskText = $(this).text();
+    let taskText = $(this).attr("value");
     selectedUser.completeTask(taskText);
     showTasks();
   });
